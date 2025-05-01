@@ -1,12 +1,6 @@
 from pydantic import BaseModel
+from datetime import datetime
 from typing import Optional
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-class TokenData(BaseModel):
-    username: Optional[str] = None
 
 class UserBase(BaseModel):
     username: str
@@ -27,13 +21,13 @@ class ProductBase(BaseModel):
     price: float
     description: str
     image: Optional[str] = None
-    posted_date: str
 
 class ProductCreate(ProductBase):
-    pass
+    posted_date: Optional[datetime] = None
 
 class Product(ProductBase):
     id: int
+    posted_date: datetime
     class Config:
         from_attributes = True
 
@@ -42,14 +36,15 @@ class TutorialBase(BaseModel):
     content: str
     category: str
     price: float
-    posted_date: str
     video_url: Optional[str] = None
+    video_file: Optional[str] = None
 
 class TutorialCreate(TutorialBase):
-    pass
+    posted_date: Optional[datetime] = None
 
 class Tutorial(TutorialBase):
     id: int
+    posted_date: datetime
     class Config:
         from_attributes = True
 
@@ -60,18 +55,20 @@ class ServiceBase(BaseModel):
     description: str
     image: Optional[str] = None
     video_url: Optional[str] = None
+    video_file: Optional[str] = None
 
 class ServiceCreate(ServiceBase):
-    pass
+    posted_date: Optional[datetime] = None
 
 class Service(ServiceBase):
     id: int
+    posted_date: datetime
     class Config:
         from_attributes = True
 
 class CartItemBase(BaseModel):
-    item_type: str  # "tutorial" or "service"
     item_id: int
+    item_type: str
     quantity: int = 1
 
 class CartItemCreate(CartItemBase):
@@ -83,27 +80,10 @@ class CartItem(CartItemBase):
     class Config:
         from_attributes = True
 
-class RequestBase(BaseModel):
-    title: str
-    description: str
-    posted_date: str
-
-class RequestCreate(RequestBase):
-    pass
-
-class Request(RequestBase):
-    id: int
-    user_id: int
-    status: str
-    class Config:
-        from_attributes = True
-
 class PurchaseBase(BaseModel):
-    item_type: str
     item_id: int
+    item_type: str
     quantity: int
-    total_price: float
-    purchase_date: str
 
 class PurchaseCreate(PurchaseBase):
     pass
@@ -111,5 +91,25 @@ class PurchaseCreate(PurchaseBase):
 class Purchase(PurchaseBase):
     id: int
     user_id: int
+    purchase_date: datetime
     class Config:
         from_attributes = True
+
+class RequestBase(BaseModel):
+    title: str
+    description: str
+    status: str = "pending"
+
+class RequestCreate(RequestBase):
+    pass
+
+class Request(RequestBase):
+    id: int
+    user_id: int
+    posted_date: datetime
+    class Config:
+        from_attributes = True
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
