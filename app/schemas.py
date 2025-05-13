@@ -73,7 +73,8 @@ class CartItemBase(BaseModel):
 
 class CartItemCreate(CartItemBase):
     pass
-
+class CartItemUpdate(BaseModel):
+    quantity: int
 class CartItem(CartItemBase):
     id: int
     user_id: int
@@ -84,9 +85,10 @@ class PurchaseBase(BaseModel):
     item_id: int
     item_type: str
     quantity: int
+    total_price: float  # Added total_price
 
 class PurchaseCreate(PurchaseBase):
-    pass
+    purchase_date: Optional[datetime] = None
 
 class Purchase(PurchaseBase):
     id: int
@@ -101,7 +103,7 @@ class RequestBase(BaseModel):
     status: str = "pending"
 
 class RequestCreate(RequestBase):
-    pass
+    posted_date: Optional[datetime] = None
 
 class Request(RequestBase):
     id: int

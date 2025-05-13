@@ -32,8 +32,8 @@ class Tutorial(Base):
     category = Column(String)
     price = Column(Float)
     posted_date = Column(DateTime, default=datetime.utcnow)
-    video_url = Column(String, nullable=True)  # YouTube URL
-    video_file = Column(String, nullable=True)  # File path for uploaded video
+    video_url = Column(String, nullable=True)
+    video_file = Column(String, nullable=True)
 
 class Service(Base):
     __tablename__ = "services"
@@ -44,8 +44,8 @@ class Service(Base):
     description = Column(String)
     image = Column(String, nullable=True)
     posted_date = Column(DateTime, default=datetime.utcnow)
-    video_url = Column(String, nullable=True)  # YouTube URL
-    video_file = Column(String, nullable=True)  # File path for uploaded video
+    video_url = Column(String, nullable=True)
+    video_file = Column(String, nullable=True)
 
 class CartItem(Base):
     __tablename__ = "cart_items"
@@ -63,6 +63,7 @@ class Purchase(Base):
     item_id = Column(Integer)
     item_type = Column(String)
     quantity = Column(Integer)
+    total_price = Column(Float)  # Added to store total price
     purchase_date = Column(DateTime, default=datetime.utcnow)
     user = relationship("User", back_populates="purchases")
 
