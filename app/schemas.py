@@ -1,6 +1,6 @@
-from pydantic import BaseModel
-from datetime import datetime
-from typing import Optional
+from pydantic import BaseModel, validator
+from datetime import datetime, date
+from typing import Optional, Union
 
 class UserBase(BaseModel):
     username: str
@@ -34,13 +34,24 @@ class Product(ProductBase):
 class TutorialBase(BaseModel):
     title: str
     content: str
-    category: str
+    tutorial_type: str  # Removed category
     price: float
     video_url: Optional[str] = None
     video_file: Optional[str] = None
 
 class TutorialCreate(TutorialBase):
-    posted_date: Optional[datetime] = None
+    posted_date: Optional[Union[datetime, date]] = None
+
+    @validator('posted_date', pre=True)
+    def parse_posted_date(cls, value):
+        if value is None:
+            return datetime.utcnow()  # Default to current time if None
+        if isinstance(value, str):
+            try:
+                return datetime.fromisoformat(value)
+            except ValueError:
+                return datetime.strptime(value, '%Y-%m-%d').replace(hour=0, minute=0, second=0)
+        return value
 
 class Tutorial(TutorialBase):
     id: int
@@ -73,8 +84,10 @@ class CartItemBase(BaseModel):
 
 class CartItemCreate(CartItemBase):
     pass
+
 class CartItemUpdate(BaseModel):
     quantity: int
+
 class CartItem(CartItemBase):
     id: int
     user_id: int
@@ -85,7 +98,7 @@ class PurchaseBase(BaseModel):
     item_id: int
     item_type: str
     quantity: int
-    total_price: float  # Added total_price
+    total_price: float
 
 class PurchaseCreate(PurchaseBase):
     purchase_date: Optional[datetime] = None

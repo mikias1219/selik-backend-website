@@ -10,7 +10,15 @@ router = APIRouter()
 def create_tutorial(tutorial: schemas.TutorialCreate, db: Session = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
     if not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Not authorized")
-    db_tutorial = models.Tutorial(**tutorial.dict())
+    db_tutorial = models.Tutorial(
+        title=tutorial.title,
+        content=tutorial.content,
+        tutorial_type=tutorial.tutorial_type,
+        price=tutorial.price,
+        posted_date=tutorial.posted_date,
+        video_url=tutorial.video_url,
+        video_file=tutorial.video_file
+    )
     db.add(db_tutorial)
     db.commit()
     db.refresh(db_tutorial)
@@ -27,8 +35,13 @@ def update_tutorial(tutorial_id: int, tutorial: schemas.TutorialCreate, db: Sess
     db_tutorial = db.query(models.Tutorial).filter(models.Tutorial.id == tutorial_id).first()
     if not db_tutorial:
         raise HTTPException(status_code=404, detail="Tutorial not found")
-    for key, value in tutorial.dict().items():
-        setattr(db_tutorial, key, value)
+    db_tutorial.title = tutorial.title
+    db_tutorial.content = tutorial.content
+    db_tutorial.tutorial_type = tutorial.tutorial_type
+    db_tutorial.price = tutorial.price
+    db_tutorial.posted_date = tutorial.posted_date
+    db_tutorial.video_url = tutorial.video_url
+    db_tutorial.video_file = tutorial.video_file
     db.commit()
     db.refresh(db_tutorial)
     return db_tutorial

@@ -35,24 +35,24 @@ def init_db():
         )
         db.add(product1)
 
-        # Create tutorials
-        tutorial1 = models.Tutorial(
-            title="PS5 Cleaning Guide",
-            content="Step-by-step guide to clean your PS5 console.",
-            category="Cleaning",
-            price=9.99,
-            posted_date=datetime.now(),
-            video_url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"  # Replace with real video
-        )
-        tutorial2 = models.Tutorial(
-            title="PS5 SSD Upgrade",
-            content="How to upgrade your PS5 storage with an SSD.",
-            category="Upgrades",
-            price=9.99,
-            posted_date=datetime.now(),
-            video_url="https://www.youtube.com/watch?v=7Yc3ZcrwtAA"  # Replace with real video
-        )
-        db.add_all([tutorial1, tutorial2])
+        # # Create tutorials
+        # tutorial1 = models.Tutorial(
+        #     title="PS5 Cleaning Guide",
+        #     content="Step-by-step guide to clean your PS5 console.",
+        #     category="Cleaning",
+        #     price=9.99,
+        #     posted_date=datetime.now(),
+        #     video_url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"  # Replace with real video
+        # )
+        # tutorial2 = models.Tutorial(
+        #     title="PS5 SSD Upgrade",
+        #     content="How to upgrade your PS5 storage with an SSD.",
+        #     category="Upgrades",
+        #     price=9.99,
+        #     posted_date=datetime.now(),
+        #     video_url="https://www.youtube.com/watch?v=7Yc3ZcrwtAA"  # Replace with real video
+        # )
+        # db.add_all([tutorial1, tutorial2])
 
         # Create services
         service1 = models.Service(

@@ -29,7 +29,7 @@ class Tutorial(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
     content = Column(String)
-    category = Column(String)
+    tutorial_type = Column(String)  # e.g., Maintenance, Software, Gaming
     price = Column(Float)
     posted_date = Column(DateTime, default=datetime.utcnow)
     video_url = Column(String, nullable=True)

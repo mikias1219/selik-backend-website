@@ -52,7 +52,11 @@ def create_tutorial(db: Session, tutorial: schemas.TutorialCreate):
     db_tutorial = models.Tutorial(
         title=tutorial.title,
         content=tutorial.content,
-        posted_date=tutorial.posted_date
+        tutorial_type=tutorial.tutorial_type,
+        price=tutorial.price,
+        posted_date=tutorial.posted_date,
+        video_url=tutorial.video_url,
+        video_file=tutorial.video_file
     )
     db.add(db_tutorial)
     db.commit()
@@ -64,7 +68,11 @@ def update_tutorial(db: Session, tutorial_id: int, tutorial: schemas.TutorialCre
     if db_tutorial:
         db_tutorial.title = tutorial.title
         db_tutorial.content = tutorial.content
+        db_tutorial.tutorial_type = tutorial.tutorial_type
+        db_tutorial.price = tutorial.price
         db_tutorial.posted_date = tutorial.posted_date
+        db_tutorial.video_url = tutorial.video_url
+        db_tutorial.video_file = tutorial.video_file
         db.commit()
         db.refresh(db_tutorial)
     return db_tutorial
